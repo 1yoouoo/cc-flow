@@ -36,6 +36,7 @@ function addHookEntry(hookList, hookScript, mode) {
 
 function setup() {
   const hookScript = getHookScriptPath()
+  const statusLineScript = path.resolve(__dirname, 'statusline.js')
   const settings = readSettings(SETTINGS_PATH)
 
   if (!settings.hooks) settings.hooks = {}
@@ -44,6 +45,17 @@ function setup() {
 
   addHookEntry(settings.hooks.PreToolUse, hookScript, 'pre')
   addHookEntry(settings.hooks.PostToolUse, hookScript, 'post')
+
+  // Register statusLine
+  if (!settings.statusLine) {
+    settings.statusLine = {
+      type: 'command',
+      command: `${process.execPath} ${statusLineScript}`,
+    }
+    console.log('✓ Status line registered')
+  } else {
+    console.log('  Status line already configured, skipping')
+  }
 
   fs.mkdirSync(path.dirname(SETTINGS_PATH), { recursive: true })
   fs.writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2))
