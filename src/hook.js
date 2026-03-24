@@ -35,6 +35,7 @@ function main() {
   ensureDir()
 
   const mode = process.argv[2] // 'pre' or 'post'
+  if (mode !== 'pre' && mode !== 'post') process.exit(0)
 
   let input = ''
   process.stdin.on('data', chunk => { input += chunk })
