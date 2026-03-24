@@ -8,7 +8,12 @@
   "scripts": {
     "start": "node src/cli.js"
   },
-  "keywords": ["claude-code", "agent", "tui", "visualization"],
+  "keywords": [
+    "claude-code",
+    "agent",
+    "tui",
+    "visualization"
+  ],
   "license": "MIT",
   "dependencies": {
     "commander": "^14.0.3",
@@ -19,6 +24,7 @@
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-react": "^7.28.5",
-    "@babel/register": "^7.28.6"
+    "@babel/register": "^7.28.6",
+    "@types/babel__register": "^7.17.3"
   }
 }
