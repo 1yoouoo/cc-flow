@@ -15,7 +15,7 @@ Automatically appears in Claude Code's status bar whenever agents are running. N
 ## Install
 
 ```bash
-npm install -g agentflow
+npm install -g @1yoouoo/agentflow
 ```
 
 ## Usage
