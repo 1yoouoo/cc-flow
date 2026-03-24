@@ -1,55 +1,51 @@
-# cc-flow
+# agentflow
 
-> Terminal UI for Claude Code multi-agent execution flow
+> Real-time agent orchestration visualizer for Claude Code
 
-Watch your Claude Code agents run in real-time — parallel and sequential flows visualized as a live tree.
+Watch your Claude Code agents run in real-time — parallel and sequential flows shown as a live status line at the bottom of your terminal.
 
 ## Demo
 
 ```
-╭─ Claude Code Flow ──────────────────── 14:32:05 ─╮
-│                                                    │
-│  ⟳ batch-orchestrator                             │
-│  ├── ✓ idea-picker          [0.8s]                │
-│  ├── ⟳ hey-its-me-orchestrator                   │
-│  │   ├── ✓ image-generator  [12.3s]               │
-│  │   └── ⟳ video-converter  [8s elapsed]          │
-│  └── ⏳ shorts-composer                           │
-│                                                    │
-│  3/5 complete  ████████░░  60%                    │
-╰────────────────────────────────────────────────────╯
+⠙ batch-orchestrator › video-converter  ━━━━━━░░░░  3/8  37%  1m 23s
 ```
+
+Automatically appears in Claude Code's status bar whenever agents are running. No separate terminal needed.
 
 ## Install
 
 ```bash
-npm install -g cc-flow
+npm install -g agentflow
 ```
 
 ## Usage
 
 ```bash
-# 1. Register Claude Code hooks (one-time setup)
-cc-flow setup
+# One-time setup — registers hooks in Claude Code
+agentflow setup
 
-# 2. Open a new terminal and run
-cc-flow watch
+# That's it. Run Claude Code normally and the status line appears automatically.
 
-# 3. Run your Claude Code agent pipeline normally
-# The tree appears automatically
+# Optional: view full agent tree
+agentflow watch
 
 # Clear history between runs
-cc-flow clear
+agentflow clear
 ```
 
 ## How It Works
 
-cc-flow hooks into Claude Code's `PreToolUse` / `PostToolUse` events for the `Agent` tool.
+agentflow hooks into Claude Code's `PreToolUse` / `PostToolUse` events for the `Agent` tool.
 Each hook call writes a JSON event to `~/.cc-flow/events.jsonl`.
-`cc-flow watch` tails that file and renders a live tree with [Ink](https://github.com/vadimdemedes/ink).
+
+The native Claude Code `statusLine` feature reads that file on every refresh and renders:
+- Animated spinner showing active state
+- Current agent execution path (root › parent › child)
+- Thin progress bar + completion count
+- Elapsed time since the run started
 
 Parent/child relationships are inferred from call depth — when one agent spawns another,
-the nesting appears automatically in the tree.
+the nesting appears automatically.
 
 ## Requirements
 

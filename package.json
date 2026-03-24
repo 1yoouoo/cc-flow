@@ -1,9 +1,9 @@
 {
-  "name": "cc-flow",
+  "name": "agentflow",
   "version": "0.1.0",
-  "description": "Terminal UI for Claude Code multi-agent execution flow",
+  "description": "Real-time agent orchestration visualizer for Claude Code",
   "bin": {
-    "cc-flow": "src/cli.js"
+    "agentflow": "src/cli.js"
   },
   "scripts": {
     "start": "node src/cli.js"
@@ -11,6 +11,8 @@
   "keywords": [
     "claude-code",
     "agent",
+    "orchestration",
+    "harness",
     "tui",
     "visualization"
   ],
