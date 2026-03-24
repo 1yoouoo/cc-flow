@@ -12,7 +12,10 @@ function getHookScriptPath() {
 function readSettings(filePath) {
   try {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'))
-  } catch {
+  } catch (err) {
+    if (err.code !== 'ENOENT') {
+      throw new Error(`Failed to parse ${filePath}: ${err.message}. Fix or delete it and re-run setup.`)
+    }
     return {}
   }
 }
@@ -27,7 +30,7 @@ function addHookEntry(hookList, hookScript, mode) {
   if (isAlreadyRegistered(hookList)) return
   hookList.push({
     matcher: 'Agent',
-    hooks: [{ type: 'command', command: `node ${hookScript} ${mode}` }],
+    hooks: [{ type: 'command', command: `${process.execPath} ${hookScript} ${mode}` }],
   })
 }
 
