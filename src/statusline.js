@@ -11,6 +11,18 @@ const cyan = s => `\x1b[36m${s}\x1b[0m`
 const green = s => `\x1b[32m${s}\x1b[0m`
 const dim = s => `\x1b[2m${s}\x1b[0m`
 
+const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+
+function spinner() {
+  return cyan(SPINNER_FRAMES[Math.floor(Date.now() / 100) % SPINNER_FRAMES.length])
+}
+
+function formatElapsed(ms) {
+  const s = Math.floor(ms / 1000)
+  if (s < 60) return `${s}s`
+  return `${Math.floor(s / 60)}m ${s % 60}s`
+}
+
 function parseEvents() {
   try {
     const lines = fs.readFileSync(EVENTS_FILE, 'utf8').trim().split('\n').filter(Boolean)
@@ -80,7 +92,7 @@ function findRunningPath(nodes) {
 
 function progressBar(done, total, width = 10) {
   const filled = total > 0 ? Math.min(width, Math.round((done / total) * width)) : 0
-  return '█'.repeat(filled) + '░'.repeat(width - filled)
+  return '━'.repeat(filled) + '░'.repeat(width - filled)
 }
 
 function main() {
@@ -96,9 +108,11 @@ function main() {
   const pathStr = runningPath.join(dim(' › '))
   const bar = progressBar(done, total)
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
+  const startTs = events.find(e => e.type === 'start')?.ts ?? Date.now()
+  const elapsed = formatElapsed(Date.now() - startTs)
 
   process.stdout.write(
-    `${cyan('⟳')} ${pathStr}  ${dim(`[${done}/${total}]`)}  ${green(bar)}  ${dim(`${pct}%`)}`
+    `${spinner()} ${pathStr}  ${green(bar)}  ${dim(`${done}/${total}`)}  ${dim(`${pct}%`)}  ${dim(elapsed)}`
   )
 }
 
