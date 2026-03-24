@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, Text, useApp } from 'ink'
 import fs from 'fs'
 import path from 'path'
@@ -77,7 +77,7 @@ function countNodes(nodes) {
 
 export function App() {
   const [tree, setTree] = useState([])
-  const [tick, setTick] = useState(0)
+  const tickUpdater = useState(0)[1]
   const { exit } = useApp()
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export function App() {
     }
 
     const watcher = fs.watch(EVENTS_FILE, () => rebuild())
-    const ticker = setInterval(() => setTick(t => t + 1), 1000)
+    const ticker = setInterval(() => tickUpdater(n => n + 1), 1000)
 
     const onKey = (data) => {
       if (data.toString() === 'q' || data.toString() === '\x03') exit()
