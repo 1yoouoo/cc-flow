@@ -2,7 +2,6 @@
   "name": "cc-flow",
   "version": "0.1.0",
   "description": "Terminal UI for Claude Code multi-agent execution flow",
-  "main": "src/cli.js",
   "bin": {
     "cc-flow": "src/cli.js"
   },
