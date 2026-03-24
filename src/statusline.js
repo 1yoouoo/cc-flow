@@ -79,7 +79,7 @@ function findRunningPath(nodes) {
 }
 
 function progressBar(done, total, width = 10) {
-  const filled = total > 0 ? Math.round((done / total) * width) : 0
+  const filled = total > 0 ? Math.min(width, Math.round((done / total) * width)) : 0
   return '█'.repeat(filled) + '░'.repeat(width - filled)
 }
 
